@@ -10,9 +10,39 @@ import yaml
 import numpy as np
 from tqdm import tqdm
 import torch
+import math
+
+########################################
+# CONFIG
+########################################
+
+# distancia umbral para positivos
+POS_DIST = 10.0
+
+# zonas de test (UTM)
+TEST_REGIONS = {
+    "P26": [405156.7520412804, 5025041.790304738],
+    "P28": [405154.7637688267, 5025158.401943873],
+    "P27": [405104.76748520625, 5025096.011784253],
+    "P29": [405179.49875482655, 5025142.53828079],
+}
+
+# radio (m) alrededor de cada punto para marcar test
+TEST_RADIUS = 20.0
+
+########################################
+# Ground Truth generation
+########################################
 
 
 AUTUMN = [   {'xmin':-15,'xmax':-9,'ymin':-50,'ymax':-1 },
+                {'xmin':-9,'xmax':-5,'ymin':-50,'ymax':-1 },
+                {'xmin':-5,'xmax':-2,'ymin':-50,'ymax':-1 },
+                {'xmin':-2,'xmax':2,'ymin':-50,'ymax':-1 },
+                {'xmin':-15,'xmax':2,'ymin':-55,'ymax':-49 },
+                {'xmin':-15,'xmax':2,'ymin':-1,'ymax':5 }
+                ]
+SPRING = [   {'xmin':-15,'xmax':-9,'ymin':-50,'ymax':-1 },
                 {'xmin':-9,'xmax':-5,'ymin':-50,'ymax':-1 },
                 {'xmin':-5,'xmax':-2,'ymin':-50,'ymax':-1 },
                 {'xmin':-2,'xmax':2,'ymin':-50,'ymax':-1 },
@@ -26,7 +56,6 @@ SUMMER = [ {'xmin':-39,'xmax':-1,'ymax':7,'ymin':4.5},
             {'xmin':-45,'xmax':-38,'ymax':6.5,'ymin':-1}]
 
 def summer_align(xy):
-    import math
     xy = xy[:,0:2].copy().transpose() # Grid
     myx = np.mean(xy,axis=1).reshape(2,1)
 
@@ -70,7 +99,7 @@ def gen_ground_truth(   poses,
     select_pos_idx = np.arange(num_pos)
 
     if sequence=='summer':
-        poses = summer_align(poses)
+        #poses = summer_align(poses)
         bbox = SUMMER
     elif sequence=='autumn':
         bbox = AUTUMN
@@ -109,6 +138,7 @@ def gen_ground_truth(   poses,
         neg_idx = np.random.choice(neg_idx, size=num_neg, replace=False)
     else:
         neg_idx = np.random.choice(neg_idx, size=num_neg, replace=True)
+
     for a, pos in zip(anchor,positive):
         pa = poses[a,:].reshape((1,-1))
         dist_meter = np.linalg.norm(pa-poses,axis=1)
@@ -153,21 +183,10 @@ def get_point_cloud_files(dir):
     return(files)
 
 
-class parser():
-    def __init__(self):
-        self.dt = [('x', '<f4'), ('y', '<f4'), ('z', '<f4'), ('intensity', '<f4'), ('ring', '<u2'), ('time', '<f4')]
-
-    def velo_read(self,file):
-        with open(file,'rb') as input_file:
-            scan = np.fromfile(input_file, dtype=self.dt)
-        scan = np.hstack((scan['x'].reshape((-1,1)),scan['y'].reshape((-1,1)),scan['z'].reshape((-1,1)),scan['intensity'].reshape((-1,1))))
-        return scan
-
-
 
 # ========================================================================================================
 
-class OrchardDataset():
+class TempoVineDataset():
     def __init__(self,
                     root,
                     dataset,
@@ -199,18 +218,18 @@ class OrchardDataset():
             self.param = {}
 
         self.laser = LaserData(
-                parser=parser(),
                 project=True,
                 **argv
                 )
 
-        # 
+        # Check if target directory exists
         self.target_dir = os.path.join(root,dataset,seq)
-
         pose_file = os.path.join(self.target_dir,'poses.txt')
+        
         assert os.path.isfile(sync_plc_idx_file), 'sync plc file does not exist: ' + sync_plc_idx_file
         assert os.path.isfile(sync_pose_idx_file), 'sync pose file does not exist: ' + sync_pose_idx_file
         assert os.path.isfile(pose_file),'pose file does not exist: ' + pose_file
+
         self.pose = load_pose_to_RAM(pose_file)
 
         point_cloud_dir = os.path.join(self.target_dir,'point_cloud')
@@ -278,14 +297,14 @@ class OrchardDataset():
 # ========================================================================================================
 # Evaluation dataloader for the second stage 
 
-class ORCHARDSEval(OrchardDataset):
+class TempoVineEval(TempoVineDataset):
     def __init__(self,root, dataset, sequence, sync = True,   # Projection param and sensor
                 modality = 'range' , 
                 mode = 'Disk', 
                 **argv
                 ):
         
-        super(ORCHARDSEval,self).__init__(root, dataset, sequence, sync=sync, modality=modality,**argv)
+        super(TempoVineEval,self).__init__(root, dataset, sequence, sync=sync, modality=modality,**argv)
         self.modality = modality
         self.mode     = mode
         self.preprocessing = PREPROCESSING
@@ -357,12 +376,9 @@ class ORCHARDSEval(OrchardDataset):
             segments[roi_dx] = i 
         return(segments)
     
+# ===================================================================================================================
 
-
-
-
-
-class ORCHARDSTriplet(OrchardDataset):
+class TEMPO_VINE_Triplet(TempoVineDataset):
     def __init__(self,
                         root,
                         dataset,
@@ -373,7 +389,7 @@ class ORCHARDSTriplet(OrchardDataset):
                         aug=False,
                         **argv):
 
-        super(ORCHARDSTriplet,self).__init__(root,dataset,sequence, sync = sync, modality=modality,**argv)
+        super(TEMPO_VINE_Triplet,self).__init__(root,dataset,sequence, sync = sync, modality=modality,**argv)
 
         self.modality = modality
         self.aug_flag = aug
@@ -491,7 +507,7 @@ class ORCHARDSTriplet(OrchardDataset):
 # ===================================================================================================================
 
 
-class ORCHARDS():
+class TEMPO_VINE():
     def __init__(self,train_loader,test_loader, split_mode='cross-val', **kwargs):
 
         self.valloader = None
@@ -500,7 +516,7 @@ class ORCHARDS():
         assert split_mode in ['cross-val','train-test','same'], "Split mode not recognized: " + split_mode
         import copy
         test_set = None
-        train_set = ORCHARDSTriplet(root = kwargs['root'],
+        train_set = TEMPO_VINE_Triplet(root = kwargs['root'],
                                     mode = kwargs['mode'],
                                     **train_loader['data'],
                                     ground_truth = train_loader['ground_truth']
@@ -578,7 +594,3 @@ def conv2PIL(image):
     im_pil = Image.fromarray(nomr_val)
     im_pil = im_pil.convert("L")
     return(im_pil)
-
-   
-
-

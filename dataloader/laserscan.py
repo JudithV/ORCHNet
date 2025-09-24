@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # This file is covered by the LICENSE file in the root of this project.
+import pandas as pd
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 import random,math
@@ -78,7 +79,7 @@ def cylinder_roi(PointCloud,roi_array):
 
 class LaserScan:
   """Class that contains LaserScan with x,y,z,r"""
-  EXTENSIONS_SCAN = ['.bin']
+  EXTENSIONS_SCAN = ['.bin', '.csv']
 
   def __init__(self, parser = None, max_points = -1, noise = 0.0002, aug=False,**argv):
 
@@ -137,8 +138,17 @@ class LaserScan:
     if self.parser != None:
       scan = self.parser.velo_read(filename)
     else: 
-      scan = np.fromfile(filename, dtype=np.float32)
-      scan = scan.reshape((-1, 4))
+      if filename.endswith('.csv'):
+        df_scan = pd.read_csv(filename)
+        points = df_scan[['x','y','z']].to_numpy()
+        if 'intensity' in df_scan.columns:
+          remissions = df_scan['intensity'].to_numpy()
+        # the variable scan contains both the points and the remissions
+        scan = np.hstack((points,np.expand_dims(remissions,axis=-1)))
+
+      elif filename.endswith('.bin'):
+        scan = np.fromfile(filename, dtype=np.float32)
+        scan = scan.reshape((-1, 4))
 
     # put in attribute
     points = scan[:, 0:3]    # get xyz
