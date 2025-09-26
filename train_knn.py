@@ -189,7 +189,7 @@ if __name__ == '__main__':
   SESSION['val_loader']['data']['max_points'] = FLAGS.max_points
 
   print("----------")
-  print("Root: ", SESSION['root'])
+  print("Root: ", SESSION['root_ES'])
   print("\n======= TRAIN LOADER =======")
   print("Dataset  : ", SESSION['train_loader']['data']['dataset'])
   print("Sequence : ", SESSION['train_loader']['data']['sequence'])
