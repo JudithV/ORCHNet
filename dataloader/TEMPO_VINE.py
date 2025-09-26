@@ -202,7 +202,7 @@ class TempoVineDataset():
                     root,
                     dataset,
                     seq,
-                    sync = True , 
+                    sync = False , 
                     modality = 'pcl' ,
                     ground_truth = { 'pos_range':4, # Loop Threshold [m]
                                      'neg_range': 10,
