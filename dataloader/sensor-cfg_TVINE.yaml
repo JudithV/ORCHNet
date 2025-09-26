@@ -1,4 +1,4 @@
-01:
+'01':
   roi:
       xmin: -15
       xmax:  15
@@ -21,7 +21,7 @@
     
 # repetir la estructura anterior para las claves 02, 03, ..., 11
 
-02:
+'02':
   roi:
       xmin: -15
       xmax:  15
@@ -42,7 +42,7 @@
     W: 254
     H: 254
 
-03:
+'03':
   roi:
       xmin: -15
       xmax:  15
@@ -62,7 +62,7 @@
     W: 256
     H: 256
 
-04:
+'04':
   roi:
       xmin: -15
       xmax:  15
@@ -82,7 +82,7 @@
     W: 256
     H: 256
 
-05:
+'05':
   roi:
       xmin: -15
       xmax:  15
@@ -102,7 +102,7 @@
     W: 256
     H: 256
 
-06:
+'06':
   roi:
       xmin: -15
       xmax:  15
@@ -122,7 +122,7 @@
     W: 256
     H: 256
 
-08:
+'08':
   roi:
       xmin: -15
       xmax:  15
@@ -142,7 +142,7 @@
     W: 256
     H: 256
 
-09:
+'09':
   roi:
       xmin: -15
       xmax:  15
