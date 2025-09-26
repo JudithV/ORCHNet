@@ -208,8 +208,6 @@ class OrchardDataset():
         self.target_dir = os.path.join(root,dataset,seq)
 
         pose_file = os.path.join(self.target_dir,'poses.txt')
-        assert os.path.isfile(sync_plc_idx_file), 'sync plc file does not exist: ' + sync_plc_idx_file
-        assert os.path.isfile(sync_pose_idx_file), 'sync pose file does not exist: ' + sync_pose_idx_file
         assert os.path.isfile(pose_file),'pose file does not exist: ' + pose_file
         self.pose = load_pose_to_RAM(pose_file)
 
