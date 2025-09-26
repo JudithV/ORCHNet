@@ -42,6 +42,13 @@ AUTUMN = [   {'xmin':-15,'xmax':-9,'ymin':-50,'ymax':-1 },
                 {'xmin':-15,'xmax':2,'ymin':-55,'ymax':-49 },
                 {'xmin':-15,'xmax':2,'ymin':-1,'ymax':5 }
                 ]
+WINTER = [   {'xmin':-15,'xmax':-9,'ymin':-50,'ymax':-1 },
+                {'xmin':-9,'xmax':-5,'ymin':-50,'ymax':-1 },
+                {'xmin':-5,'xmax':-2,'ymin':-50,'ymax':-1 },
+                {'xmin':-2,'xmax':2,'ymin':-50,'ymax':-1 },
+                {'xmin':-15,'xmax':2,'ymin':-55,'ymax':-49 },
+                {'xmin':-15,'xmax':2,'ymin':-1,'ymax':5 }
+                ]
 SPRING = [   {'xmin':-15,'xmax':-9,'ymin':-50,'ymax':-1 },
                 {'xmin':-9,'xmax':-5,'ymin':-50,'ymax':-1 },
                 {'xmin':-5,'xmax':-2,'ymin':-50,'ymax':-1 },
@@ -223,16 +230,15 @@ class TempoVineDataset():
                 )
 
         # Check if target directory exists
-        self.target_dir = os.path.join(root,dataset,seq)
-        pose_file = os.path.join(self.target_dir,'poses.txt')
-        
-        assert os.path.isfile(sync_plc_idx_file), 'sync plc file does not exist: ' + sync_plc_idx_file
-        assert os.path.isfile(sync_pose_idx_file), 'sync pose file does not exist: ' + sync_pose_idx_file
+        sequence = "run1_" + seq + "_v"
+        self.target_dir = os.path.join(root,sequence)
+        pose_file = os.path.join(self.target_dir,'data.csv')
+
         assert os.path.isfile(pose_file),'pose file does not exist: ' + pose_file
 
         self.pose = load_pose_to_RAM(pose_file)
 
-        point_cloud_dir = os.path.join(self.target_dir,'point_cloud')
+        point_cloud_dir = os.path.join(self.target_dir,'pointcloud/lidar3d_0')
         assert os.path.isdir(point_cloud_dir),'point cloud dir does not exist: ' + point_cloud_dir
         names, self.point_cloud_files = get_files(point_cloud_dir)
 
@@ -308,10 +314,14 @@ class TempoVineEval(TempoVineDataset):
         self.modality = modality
         self.mode     = mode
         self.preprocessing = PREPROCESSING
-        if sequence == 'autumn':
+        if sequence in ['11']:
             self.line_rois = AUTUMN
-        else:
+        elif sequence in ['03', '04', '05']:
+            self.line_rois = SPRING
+        elif sequence in ['06', '07', '08', '09', '10']:
             self.line_rois = SUMMER
+        else:
+            self.line_rois = WINTER
 
         self.num_samples = self.point_cloud_files.shape[0]
         self.idx_universe = np.arange(self.num_samples)
@@ -524,7 +534,7 @@ class TEMPO_VINE():
 
         if split_mode == 'cross-val':
             # Cross-validation. Train and test sets are from different sequences
-            test_set = ORCHARDSEval( root =  kwargs['root'],
+            test_set = TempoVineEval( root =  kwargs['root'],
                                         mode = kwargs['mode'],
                                         **test_loader['data'],
                                         ground_truth = test_loader['ground_truth']

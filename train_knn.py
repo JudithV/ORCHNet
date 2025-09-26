@@ -39,11 +39,7 @@ def force_cudnn_initialization():
 
 def load_dataset(dataset,session,memory,max_points=None,debug=False):
 
-    # To get Windows or ubuntu paths
-    if os.sep == '\\':
-        root_dir = 'root_ws'
-    else:
-        root_dir = 'root'
+    root_dir = "root_ES"
 
 
     """loader = ORCHARDS(root    = session[root_dir],
