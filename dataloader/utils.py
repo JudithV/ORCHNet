@@ -1,7 +1,6 @@
-
-
-
 import os
+import pandas as pd
+import yaml
 import numpy as np
 from tqdm import tqdm
 
@@ -53,6 +52,12 @@ def load_pose_to_RAM(file):
         values = [float(v) for v in values_str]
         pose_array.append(values[0:3])
     return(np.array(pose_array))
+
+def load_pose_to_RAM_csv(file):
+    assert os.path.isfile(file)
+    df = pd.read_csv(file)
+    pose_array = df[['northing','easting']].to_numpy()
+    return(pose_array)
 
 def load_to_RAM(file):
     assert os.path.isfile(file)

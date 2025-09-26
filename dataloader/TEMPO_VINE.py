@@ -240,7 +240,7 @@ class TempoVineDataset():
 
         assert os.path.isfile(pose_file),'pose file does not exist: ' + pose_file
 
-        self.pose = load_pose_to_RAM(pose_file)
+        self.pose = load_pose_to_RAM_csv(pose_file)
 
         point_cloud_dir = os.path.join(self.target_dir,'pointcloud/lidar3d_0')
         assert os.path.isdir(point_cloud_dir),'point cloud dir does not exist: ' + point_cloud_dir
