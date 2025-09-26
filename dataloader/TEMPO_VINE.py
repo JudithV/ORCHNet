@@ -308,7 +308,7 @@ class TempoVineDataset():
 # Evaluation dataloader for the second stage 
 
 class TempoVineEval(TempoVineDataset):
-    def __init__(self,root, dataset, sequence, sync = True,   # Projection param and sensor
+    def __init__(self,root, dataset, sequence, sync = False,   # Projection param and sensor
                 modality = 'range' , 
                 mode = 'Disk', 
                 **argv
