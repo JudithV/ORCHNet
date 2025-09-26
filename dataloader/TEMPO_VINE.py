@@ -144,12 +144,7 @@ def gen_ground_truth(   poses,
     
     # Negatives
     negatives= []
-    #neg_idx = np.arange(num_neg)   
-    if len(neg_idx) >= num_neg:
-        neg_idx = np.random.choice(neg_idx, size=num_neg, replace=False)
-    else:
-        neg_idx = np.random.choice(neg_idx, size=num_neg, replace=True)
-
+    neg_idx = np.arange(num_neg)   
     for a, pos in zip(anchor,positive):
         pa = poses[a,:].reshape((1,-1))
         dist_meter = np.linalg.norm(pa-poses,axis=1)
