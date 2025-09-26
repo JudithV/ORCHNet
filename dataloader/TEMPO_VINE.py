@@ -397,7 +397,7 @@ class TEMPO_VINE_Triplet(TempoVineDataset):
                         root,
                         dataset,
                         sequence, 
-                        sync = True, 
+                        sync = False, 
                         mode='Disk', 
                         modality = 'projection', 
                         aug=False,
