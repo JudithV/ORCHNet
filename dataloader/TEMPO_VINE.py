@@ -215,7 +215,7 @@ class TempoVineDataset():
         self.modality = modality
         self.num_pos = ground_truth['num_pos']
         # Load dataset and laser settings
-        cfg_file = os.path.join('dataloader','sensor-cfg.yaml')
+        cfg_file = os.path.join('dataloader','sensor-cfg_TVINE.yaml')
         sensor_cfg = yaml.safe_load(open(cfg_file , 'r'))
 
         if not 'square_roi' in argv:
