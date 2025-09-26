@@ -105,11 +105,15 @@ def gen_ground_truth(   poses,
     positive = []
     select_pos_idx = np.arange(num_pos)
 
-    if sequence=='summer':
-        #poses = summer_align(poses)
+    if sequence in ['11']:
+            bbox = AUTUMN
+    elif sequence in ['03', '04', '05']:
+        bbox = SPRING
+    elif sequence in ['06', '07', '08', '09', '10']:
         bbox = SUMMER
-    elif sequence=='autumn':
-        bbox = AUTUMN
+    else:
+        bbox = WINTER
+
 
     for i in ROI:
     
