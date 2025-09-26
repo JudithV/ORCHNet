@@ -1,6 +1,4 @@
-
-
-summer:
+01:
   roi:
       xmin: -15
       xmax:  15
@@ -9,47 +7,42 @@ summer:
       zmin: -1 # Do not change
       zmax: 2 # Do not change
 
-  RP: # HDL-32E  
+  RP: # VLP-16
     W: 512
     H: 32
     max_depth: 30
     max_rem: 1
-    fov_up: 10.67
-    fov_down: -30.67
+    fov_up: 15
+    fov_down: -15
 
   BEV:
     W: 254
     H: 254
     
+# repetir la estructura anterior para las claves 02, 03, ..., 11
 
-autumn:  
+02:
   roi:
       xmin: -15
       xmax:  15
       ymin: -15
       ymax:  15
-      zmin: -2.73
-      zmax: 2
+      zmin: -1 # Do not change
+      zmax: 2 # Do not change
 
-  RP: # HDL-32E  
-    fov_up: 4.67
-    fov_down: -5.67
+  RP: # VLP-16
     W: 512
     H: 32
     max_depth: 30
     max_rem: 1
+    fov_up: 15
+    fov_down: -15
 
   BEV:
-    W: 256
-    H: 256
-    
+    W: 254
+    H: 254
 
-
-  
-rerecord_orchard1:
-  means: []
-  std:   []
-  sensor: "HDL32"
+03:
   roi:
       xmin: -15
       xmax:  15
@@ -57,7 +50,170 @@ rerecord_orchard1:
       ymax:  15
       zmin: -2.73
       zmax: 5
-  RP: # HDL-32E  
+  RP: # VLP-16
+    W: 1024
+    H: 32
+    max_depth: 30
+    max_rem: 1
+    fov_up: 15
+    fov_down: -15
+
+  BEV:
+    W: 256
+    H: 256
+
+04:
+  roi:
+      xmin: -15
+      xmax:  15
+      ymin: -15
+      ymax:  15
+      zmin: -2.73
+      zmax: 5
+  RP: # VLP-16
+    W: 1024
+    H: 32
+    max_depth: 30
+    max_rem: 1
+    fov_up: 15
+    fov_down: -15
+
+  BEV:
+    W: 256
+    H: 256
+
+05:
+  roi:
+      xmin: -15
+      xmax:  15
+      ymin: -15
+      ymax:  15
+      zmin: -2.73
+      zmax: 5
+  RP: # VLP-16
+    W: 1024
+    H: 32
+    max_depth: 30
+    max_rem: 1
+    fov_up: 15
+    fov_down: -15
+
+  BEV:
+    W: 256
+    H: 256
+
+06:
+  roi:
+      xmin: -15
+      xmax:  15
+      ymin: -15
+      ymax:  15
+      zmin: -2.73
+      zmax: 5
+  RP: # VLP-16
+    W: 1024
+    H: 32
+    max_depth: 30
+    max_rem: 1
+    fov_up: 15
+    fov_down: -15
+
+  BEV:
+    W: 256
+    H: 256
+
+08:
+  roi:
+      xmin: -15
+      xmax:  15
+      ymin: -15
+      ymax:  15
+      zmin: -2.73
+      zmax: 5
+  RP: # VLP-16
+    W: 1024
+    H: 32
+    max_depth: 30
+    max_rem: 1
+    fov_up: 15
+    fov_down: -15
+
+  BEV:
+    W: 256
+    H: 256
+
+09:
+  roi:
+      xmin: -15
+      xmax:  15
+      ymin: -15
+      ymax:  15
+      zmin: -2.73
+      zmax: 5
+  RP: # VLP-16
+    W: 1024
+    H: 32
+    max_depth: 30
+    max_rem: 1
+    fov_up: 15
+    fov_down: -15
+
+  BEV:
+    W: 256
+    H: 256
+
+10:
+  roi:
+      xmin: -15
+      xmax:  15
+      ymin: -15
+      ymax:  15
+      zmin: -2.73
+      zmax: 5
+  RP: # VLP-16
+    W: 1024
+    H: 32
+    max_depth: 30
+    max_rem: 1
+    fov_up: 15
+    fov_down: -15
+
+  BEV:
+    W: 256
+    H: 256
+
+11:
+  roi:
+      xmin: -15
+      xmax:  15
+      ymin: -15
+      ymax:  15
+      zmin: -2.73
+      zmax: 5
+  RP: # VLP-16
+    W: 1024
+    H: 32
+    max_depth: 30
+    max_rem: 1
+    fov_up: 15
+    fov_down: -15
+
+  BEV:
+    W: 256
+    H: 256
+
+rerecord_orchard1:
+  means: []
+  std:   []
+  sensor: "VLP16"
+  roi:
+      xmin: -15
+      xmax:  15
+      ymin: -15
+      ymax:  15
+      zmin: -2.73
+      zmax: 5
+  RP: # VLP-16
     W: 1024
     H: 32
     max_depth: 30
@@ -67,10 +223,10 @@ rerecord_orchard1:
     W: 256
     H: 256
 
-ouster:
+velodyne:
   means: []
   std:   []
-  sensor: "ousterlaser"
+  sensor: "velodynesensor"
   roi:
       xmin: -50
       xmax:  50
@@ -79,7 +235,7 @@ ouster:
       zmin: -2.73
       zmax: 20
       
-  RP: # HDL-32E  
+  RP: # VLP-16
     W: 512
     H: 32
     max_depth: 50
@@ -90,14 +246,14 @@ ouster:
     H: 256
     
 
-HDL32: 
-  fov_up: 10.67
-  fov_down: -30.67
+VLP16: 
+  fov_up: 15
+  fov_down: -15
 
-ousterlaser: # +16.6° to -16.6
+velodynesensor: # +16.6° to -16.6
   fov_up: 16.6
   fov_down: -16.6
 
-HDL64E: 
+MID360: 
   fov_up: 2.0
   fov_down: -24.9
