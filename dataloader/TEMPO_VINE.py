@@ -106,7 +106,7 @@ def gen_ground_truth(   poses,
     select_pos_idx = np.arange(num_pos)
 
     if sequence in ['11']:
-            bbox = AUTUMN
+        bbox = AUTUMN
     elif sequence in ['03', '04', '05']:
         bbox = SPRING
     elif sequence in ['06', '07', '08', '09', '10']:
@@ -116,7 +116,6 @@ def gen_ground_truth(   poses,
 
     print(np.min(poses[:,0]), np.max(poses[:,0]), np.min(poses[:,1]), np.max(poses[:,1]))
     for i in ROI:
-    
         _map_   = poses[:i,:]
         pose    = poses[i,:].reshape((1,-1))
         map_frame_idx  = indices[:i]
