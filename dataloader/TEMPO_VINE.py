@@ -114,18 +114,20 @@ def gen_ground_truth(   poses,
     else:
         bbox = WINTER
 
-
+    print(np.min(poses[:,0]), np.max(poses[:,0]), np.min(poses[:,1]), np.max(poses[:,1]))
     for i in ROI:
     
         _map_   = poses[:i,:]
         pose    = poses[i,:].reshape((1,-1))
         map_frame_idx  = indices[:i]
         dist_meter  = np.sqrt(np.sum((pose -_map_)**2,axis=1))
-
         dist = dist_meter/ np.max(dist_meter)
+        #print(f"Dist_meter: {dist_meter}, lenght dist_meter: {len(dist_meter)}")
 
-        pos_idx = np.where(dist_meter[:i-roi] < pos_range)[0]
-        
+        #pos_idx = np.where(dist_meter[:i-roi] < pos_range)[0]
+        pos_idx = np.where(dist_meter < pos_range)[0]
+        pos_idx = pos_idx[pos_idx < i - roi]   # evita coger frames muy recientes
+
         if len(pos_idx)>0:
     
             n_coord=  poses[i].shape[0]
@@ -199,12 +201,12 @@ class TempoVineDataset():
                     seq,
                     sync = False , 
                     modality = 'pcl' ,
-                    ground_truth = { 'pos_range':4, # Loop Threshold [m]
-                                     'neg_range': 10,
+                    ground_truth = { 'pos_range':10, # Loop Threshold [m]
+                                     'neg_range': 25,
                                      'num_neg':20,
                                      'num_pos':1,
-                                     'warmupitrs': 600, # Number of frames to ignore at the beguinning
-                                     'roi':500},
+                                     'warmupitrs': 0, # Number of frames to ignore at the beguinning
+                                     'roi':300},
                         **argv):
 
         self.modality = modality

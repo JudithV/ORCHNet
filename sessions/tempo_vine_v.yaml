@@ -24,7 +24,7 @@ train_loader:
     neg_range: 15
     num_neg: 20
     num_pos: 1
-    warmupitrs: 600 # Number of frames to ignore at the beguinning
+    warmupitrs: 10 # Number of frames to ignore at the beguinning
     roi: 500 
     #pos_range: 5
     #neg_range: 20
