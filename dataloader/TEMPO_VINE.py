@@ -229,7 +229,7 @@ class TempoVineDataset():
                 )
 
         # Check if target directory exists
-        sequence = "run1_" + seq + "_v"
+        sequence = "run3_" + seq + "_v"
         self.target_dir = os.path.join(root,sequence)
         pose_file = os.path.join(self.target_dir, "SLAM",'solution_graphslam.csv') # data.csv
 

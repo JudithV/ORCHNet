@@ -14,7 +14,7 @@ retrieval:
 train_loader:
   data:
     dataset: ''
-    sequence: '01' # sequences from 01 to 11
+    sequence: '08' # sequences from 01 to 11
     aug: True
     modality: 'range'
     max_points: 10000

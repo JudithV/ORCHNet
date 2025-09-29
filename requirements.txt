@@ -11,3 +11,9 @@ datetime
 argparse
 torchmetrics
 tensorboard
+pandas
+tqdm
+requests
+python-opencv
+GPUtil
+scikit-learn
