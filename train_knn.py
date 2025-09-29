@@ -155,7 +155,7 @@ if __name__ == '__main__':
       '--max_points',
       type=int,
       required=False,
-      default = 500,
+      default = 5000,
       help='sampling points.'
   )
 
