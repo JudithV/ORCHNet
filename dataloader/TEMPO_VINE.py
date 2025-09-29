@@ -231,7 +231,7 @@ class TempoVineDataset():
         # Check if target directory exists
         sequence = "run1_" + seq + "_v"
         self.target_dir = os.path.join(root,sequence)
-        pose_file = os.path.join(self.target_dir,'data.csv')
+        pose_file = os.path.join(self.target_dir, "SLAM",'solution_graphslam.csv') # data.csv
 
         assert os.path.isfile(pose_file),'pose file does not exist: ' + pose_file
 
@@ -543,7 +543,7 @@ class TEMPO_VINE():
         elif  split_mode == 'train-test':
             # train-test: train and test sets are from the same sequences, which is split randomly in two.
             # Before
-            train_size = 0.6
+            train_size = 0.6 # Percentage of data for training
             print('Train data set:', len(train_set))
             print("train-test split: " + str(train_size))
             # Random split
