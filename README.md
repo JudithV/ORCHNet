@@ -9,3 +9,6 @@ ORCHNet is evaluated on real-world data collected in orchards, comprising data f
 ## Citations
 
 Preprint: https://arxiv.org/abs/2303.00477
+
+### Command to train with our data:
+`python3 train_knn.py --dataset tempo_vine_v --cfg sensor-cfg_TVINE`
