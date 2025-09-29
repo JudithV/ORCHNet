@@ -56,11 +56,15 @@ SPRING = [   {'xmin':-15,'xmax':-9,'ymin':-50,'ymax':-1 },
                 {'xmin':-15,'xmax':2,'ymin':-55,'ymax':-49 },
                 {'xmin':-15,'xmax':2,'ymin':-1,'ymax':5 }
                 ]
-SUMMER = [ {'xmin':-39,'xmax':-1,'ymax':7,'ymin':4.5},
-            {'xmin':-39,'xmax':-1,'ymax':4.5,'ymin':1},
-            {'xmin':-39,'xmax':-1,'ymax':1,'ymin':-2},
-            {'xmin':-2,'xmax':2,'ymax':6.5,'ymin':-1},
-            {'xmin':-45,'xmax':-38,'ymax':6.5,'ymin':-1}]
+SUMMER = [
+        {'xmin':0, 'xmax':20, 'ymin':-30, 'ymax':-10},
+        {'xmin':20,'xmax':40,'ymin':-30,'ymax':-10},
+        {'xmin':40,'xmax':60,'ymin':-30,'ymax':-10},
+        {'xmin':60,'xmax':80,'ymin':-30,'ymax':-10},
+        {'xmin':80,'xmax':100,'ymin':-30,'ymax':-10},
+        {'xmin':100,'xmax':113,'ymin':-30,'ymax':-10}
+    ]
+
 
 def summer_align(xy):
     xy = xy[:,0:2].copy().transpose() # Grid
