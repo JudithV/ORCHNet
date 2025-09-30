@@ -4,8 +4,8 @@ experim_name: 'default'
 ################################################################################
 pretrained_root: 'checkpoints'
 n_gpu: 1
-root_ES: '/media/arvc/HDD4TB/Judith/MinkUNeXt-main/vmd/vineyard'
-root_IT: '/media/data/judith/datasets/vmd/vineyard'
+root_ES: '/media/arvc/HDD4TB/Judith/MinkUNeXt-main/blt/ktima'
+root_IT: '/media/data/judith/datasets/blt/ktima'
 
 retrieval:
   top_cand: [1,5,25]
@@ -14,7 +14,7 @@ retrieval:
 train_loader:
   data:
     dataset: ''
-    sequence: '08' # sequences from 01 to 11
+    sequence: '2022-05-06' # date of the sequence
     aug: True
     modality: 'range'
     max_points: 10000
@@ -77,7 +77,7 @@ trainer:
   monitor: "max recall" # [off, max mIoU]
   val_per_epochs: 1
   eval_metric: 'L2'
-  results_dir: "/home/judith-vilella-cantos/ORCHNet/results/tempo_vine_v"
+  results_dir: "/home/judith-vilella-cantos/ORCHNet/results/blt"
 
 
 optimizer:

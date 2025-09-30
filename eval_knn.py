@@ -4,11 +4,14 @@ import argparse
 import yaml
 from shutil import copyfile
 import os
+import json
+from pathlib import Path
 os.environ['NUMEXPR_NUM_THREADS'] = '8'
 
 import torch 
 from tqdm import tqdm
 from networks.orchnet import *
+import numpy as np
 
 from dataloader.ORCHARDS import ORCHARDS
 
@@ -44,7 +47,7 @@ class PlaceRecognition():
         self.eval_metric = eval_metric
         self.model  = model.to(device)
         self.loader = loader
-       
+        self.save_path = '/home/judith-vilella-cantos/ORCHNet/predictions/results.json'
         self.device = device
         self.top_cand = top_cand
         self.windows = windows
@@ -77,10 +80,12 @@ class PlaceRecognition():
         if not isinstance(self.top_cand,list):
             self.top_cand = [self.top_cand]
 
-        
+        self.top_cand = sorted(set(self.top_cand))
+
         self.descriptors = self.generate_descriptors(self.model,self.loader)
         # None Retrieval Area
         pred_loops = []
+        valid_anchors = []
         target_loops= []
         target_loops = self.true_loop[self.anchors]
         descriptor_idx = list(self.descriptors.keys())
@@ -88,7 +93,8 @@ class PlaceRecognition():
         database_size = len(self.database)- self.windows
         one_percent = int(round(database_size/100,0))
         # Append 1% to candidates to retrieve
-        self.top_cand.append(one_percent)
+        if one_percent not in self.top_cand:
+            self.top_cand.append(one_percent)
         # Get the biggest value
         self.max_top = max(self.top_cand)
         for anchor in tqdm(self.anchors,"Retrivel"):
@@ -108,6 +114,7 @@ class PlaceRecognition():
                 pad = np.full(self.max_top - top_now, -1, dtype=int)
                 pred = np.concatenate([pred, pad])
             pred_loops.append(pred)
+            valid_anchors.append(anchor)
         # Evaluate retrieval
         # Usar dtype=object si no haces padding, o normal si hiciste padding
         pred_loops = np.array(pred_loops)  # si hiciste padding arriba
@@ -124,6 +131,18 @@ class PlaceRecognition():
                 continue
             scores = retrieve_eval(pred_loops, target_loops, top=valid_top)
             overall_scores[top] = scores
+        out_path = None or self.save_path
+        if out_path:
+            payload = {
+                "Recall@1": overall_scores.get(1, None),
+                "Recall@1%": overall_scores.get(one_percent, None),
+                "k_for_1_percent": one_percent,
+                "all": overall_scores
+            }
+            Path(out_path).parent.mkdir(parents=True, exist_ok=True)
+            with open(out_path, "w", encoding="utf-8") as f:
+                json.dump(payload, f, ensure_ascii=False, indent=2)
+
         return overall_scores
 
 

@@ -97,10 +97,12 @@ def sim_knn(query,map,top_cand,metric='cosine_loss'):
         sim = metric_fun(q_torch,map_torch) # similarity-based metrics 0 :-> same; +inf: -> Dissimilar 
         sort_value,sort_idx = sim.sort() # Sort to get the most similar vectors first
         # save top candidates
-        scores.append(sort_value.detach().cpu().numpy()[:top_cand])
-        winner.append(sort_idx.detach().cpu().numpy()[:top_cand])
+        sv = np.atleast_1d(sort_value.detach().cpu().numpy())
+        si = np.atleast_1d(sort_idx.detach().cpu().numpy())
+        scores.append(sv[:top_cand])
+        winner.append(si[:top_cand])
 
-    return np.array(winner),np.array(scores)
+    return np.array(winner, dtype=np.int64), np.array(scores)
 
 
 
@@ -174,10 +176,12 @@ def retrieval_knn(query_dptrs,map_dptrs, top_cand,metric):
         sim = metric_fun(q_torch,map_torch,dim=2).squeeze() # similarity-based metrics 0 :-> same; +inf: -> Dissimilar 
         sort_value,sort_idx = sim.sort() # Sort to get the most similar vectors first
         # save top candidates
-        scores.append(sort_value.detach().cpu().numpy()[:top_cand])
-        winner.append(sort_idx.detach().cpu().numpy()[:top_cand])
+        sv = np.atleast_1d(sort_value.detach().cpu().numpy())
+        si = np.atleast_1d(sort_idx.detach().cpu().numpy())
+        scores.append(sv[:top_cand])
+        winner.append(si[:top_cand])
 
-    return np.array(winner),np.array(scores)
+    return np.array(winner, dtype=np.int64), np.array(scores)
 
     # retrieved_loops ,scores = sim_knn(query_dptrs,map_dptrs, top_cand = max_top,metric='cosine_loss')
 

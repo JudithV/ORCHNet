@@ -122,6 +122,26 @@
     W: 256
     H: 256
 
+'07':
+  roi:
+      xmin: -15
+      xmax:  15
+      ymin: -15
+      ymax:  15
+      zmin: -2.73
+      zmax: 5
+  RP: # VLP-16
+    W: 1024
+    H: 32
+    max_depth: 30
+    max_rem: 1
+    fov_up: 15
+    fov_down: -15
+
+  BEV:
+    W: 256
+    H: 256
+
 '08':
   roi:
       xmin: -15
@@ -162,7 +182,7 @@
     W: 256
     H: 256
 
-10:
+'10':
   roi:
       xmin: -15
       xmax:  15
@@ -182,7 +202,7 @@
     W: 256
     H: 256
 
-11:
+'11':
   roi:
       xmin: -15
       xmax:  15

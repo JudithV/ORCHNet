@@ -147,15 +147,6 @@ def gen_ground_truth(   poses,
     positive = []
     select_pos_idx = np.arange(num_pos)
 
-    """if sequence in ['11']:
-        bbox = AUTUMN
-    elif sequence in ['03', '04', '05']:
-        bbox = SPRING
-    elif sequence in ['06', '07', '08', '09', '10']:
-        bbox = SUMMER
-    else:
-        bbox = WINTER"""
-
     bbox = make_grid_rois(poses, nx=6, ny=4, pad_frac=0.02)
 
     print(np.min(poses[:,0]), np.max(poses[:,0]), np.min(poses[:,1]), np.max(poses[:,1]))
@@ -245,7 +236,7 @@ def get_point_cloud_files(dir):
 
 # ========================================================================================================
 
-class TempoVineDataset():
+class BLTDataset():
     def __init__(self,
                     root,
                     dataset,
@@ -263,7 +254,7 @@ class TempoVineDataset():
         self.modality = modality
         self.num_pos = ground_truth['num_pos']
         # Load dataset and laser settings
-        cfg_file = os.path.join('dataloader','sensor-cfg_TVINE.yaml')
+        cfg_file = os.path.join('dataloader','sensor-cfg_BLT.yaml')
         sensor_cfg = yaml.safe_load(open(cfg_file , 'r'))
 
         if not 'square_roi' in argv:
@@ -282,9 +273,8 @@ class TempoVineDataset():
                 )
 
         # Check if target directory exists
-        sequence = "run3_" + seq + "_v"
-        self.target_dir = os.path.join(root,sequence)
-        pose_file = os.path.join(self.target_dir,'data.csv') # data.csv
+        self.target_dir = os.path.join(root,seq)
+        pose_file = os.path.join(self.target_dir,'robot0', 'gps0','data.csv') # data.csv
 
         assert os.path.isfile(pose_file),'pose file does not exist: ' + pose_file
 
@@ -355,14 +345,14 @@ class TempoVineDataset():
 # ========================================================================================================
 # Evaluation dataloader for the second stage 
 
-class TempoVineEval(TempoVineDataset):
+class BLTEval(BLTDataset):
     def __init__(self,root, dataset, sequence, sync = False,   # Projection param and sensor
                 modality = 'range' , 
                 mode = 'Disk', 
                 **argv
                 ):
         
-        super(TempoVineEval,self).__init__(root, dataset, sequence, sync=sync, modality=modality,**argv)
+        super(BLTEval,self).__init__(root, dataset, sequence, sync=sync, modality=modality,**argv)
         self.modality = modality
         self.mode     = mode
         self.preprocessing = PREPROCESSING
@@ -442,7 +432,7 @@ class TempoVineEval(TempoVineDataset):
     
 # ===================================================================================================================
 
-class TEMPO_VINE_Triplet(TempoVineDataset):
+class BLT_Triplet(BLTDataset):
     def __init__(self,
                         root,
                         dataset,
@@ -453,7 +443,7 @@ class TEMPO_VINE_Triplet(TempoVineDataset):
                         aug=False,
                         **argv):
 
-        super(TEMPO_VINE_Triplet,self).__init__(root,dataset,sequence, sync = sync, modality=modality,**argv)
+        super(BLT_Triplet,self).__init__(root,dataset,sequence, sync = sync, modality=modality,**argv)
 
         self.modality = modality
         self.aug_flag = aug
@@ -571,7 +561,7 @@ class TEMPO_VINE_Triplet(TempoVineDataset):
 # ===================================================================================================================
 
 
-class TEMPO_VINE():
+class BLT():
     def __init__(self,train_loader,test_loader, split_mode='cross-val', **kwargs):
 
         self.valloader = None
@@ -580,7 +570,7 @@ class TEMPO_VINE():
         assert split_mode in ['cross-val','train-test','same'], "Split mode not recognized: " + split_mode
         import copy
         test_set = None
-        train_set = TEMPO_VINE_Triplet(root = kwargs['root'],
+        train_set = BLT_Triplet(root = kwargs['root'],
                                     mode = kwargs['mode'],
                                     **train_loader['data'],
                                     ground_truth = train_loader['ground_truth']
