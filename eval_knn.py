@@ -62,7 +62,11 @@ class PlaceRecognition():
             table = loader.dataset.dataset.get_GT_Map()
             poses = loader.dataset.dataset.get_pose()
 
-        self.true_loop = np.array([np.where(line==1)[0] for line in table])
+        self.true_loop = np.array(
+            [np.flatnonzero(line == 1).astype(np.int64) for line in table],
+            dtype=object
+        )
+
         
 
     def get_descriptors(self):
@@ -88,25 +92,39 @@ class PlaceRecognition():
         # Get the biggest value
         self.max_top = max(self.top_cand)
         for anchor in tqdm(self.anchors,"Retrivel"):
-            database_idx = self.database[:anchor-self.windows] # 
+            database_idx = self.database[:anchor-self.windows]
             # Split descriptors
             query_dptrs = np.array([self.descriptors[i] for i in [anchor] if i in descriptor_idx ])
             map_dptrs   = np.array([self.descriptors[i] for i in database_idx if i in descriptor_idx ])
+            if len(map_dptrs) == 0:
+                continue
+            # Limitar top a tamaño de la BD disponible
+            top_now = min(self.max_top, len(map_dptrs))
             # Retrieve loops 
-            retrieved_loops ,scores = retrieval_knn(query_dptrs, map_dptrs, top_cand = self.max_top, metric = self.eval_metric)
-
-            pred_loops.append(retrieved_loops[0])
+            retrieved_loops ,scores = retrieval_knn(query_dptrs, map_dptrs, top_cand = top_now, metric = self.eval_metric)
+            pred = retrieved_loops[0]
+            # (opcional) padding a longitud fija self.max_top
+            if top_now < self.max_top:
+                pad = np.full(self.max_top - top_now, -1, dtype=int)
+                pred = np.concatenate([pred, pad])
+            pred_loops.append(pred)
         # Evaluate retrieval
-        pred_loops = np.array(pred_loops)
-        target_loops = np.array(target_loops)
+        # Usar dtype=object si no haces padding, o normal si hiciste padding
+        pred_loops = np.array(pred_loops)  # si hiciste padding arriba
+        # pred_loops = np.array(pred_loops, dtype=object)  # si decides no padear
+
+        # Mantener target_loops como ragged array
+        target_loops = np.array(target_loops, dtype=object)
 
         overall_scores = {}
         for top in self.top_cand:
-            scores = retrieve_eval(pred_loops,target_loops, top = top)
-            overall_scores[top]=scores
-        # Post on tensorboard
+            # Garantizar top válido respecto a pred_loops
+            valid_top = min(top, pred_loops.shape[1]) if pred_loops.size else top
+            if valid_top <= 0:
+                continue
+            scores = retrieve_eval(pred_loops, target_loops, top=valid_top)
+            overall_scores[top] = scores
         return overall_scores
-
 
 
     def generate_descriptors(self,model,loader):

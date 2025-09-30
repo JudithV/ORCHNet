@@ -44,7 +44,7 @@ def square_roi(PointCloud,roi_array):
       region_mask_list.append((PointCloud[:, 2]  <= roi["zmax"]))
     
     mask = np.stack(region_mask_list,axis=-1)
-    mask = np.product(mask,axis=-1).astype(bool)
+    mask = np.all(mask, axis=-1)
     mask_list.append(mask)
 
     

@@ -33,44 +33,74 @@ TEST_RADIUS = 20.0
 ########################################
 # Ground Truth generation
 ########################################
+CUSTOM_ROIS_6x4 = [
+ {'xmin': 4.034867673730582e-12, 'xmax': 18.770097239927818, 'ymin': -30.49941951748484, 'ymax': -15.560788778895319},
+ {'xmin': 4.034867673730582e-12, 'xmax': 18.770097239927818, 'ymin': -15.560788778895319, 'ymax': -0.6221580403057985},
+ {'xmin': 4.034867673730582e-12, 'xmax': 18.770097239927818, 'ymin': -0.6221580403057985, 'ymax': 14.316472698283718},
+ {'xmin': 4.034867673730582e-12, 'xmax': 18.770097239927818, 'ymin': 14.316472698283718, 'ymax': 29.255103436873245},
+ {'xmin': 18.770097239927818, 'xmax': 37.5401944798516, 'ymin': -30.49941951748484, 'ymax': -15.560788778895319},
+ {'xmin': 18.770097239927818, 'xmax': 37.5401944798516, 'ymin': -15.560788778895319, 'ymax': -0.6221580403057985},
+ {'xmin': 18.770097239927818, 'xmax': 37.5401944798516, 'ymin': -0.6221580403057985, 'ymax': 14.316472698283718},
+ {'xmin': 18.770097239927818, 'xmax': 37.5401944798516, 'ymin': 14.316472698283718, 'ymax': 29.255103436873245},
+ {'xmin': 37.5401944798516, 'xmax': 56.31029171977539, 'ymin': -30.49941951748484, 'ymax': -15.560788778895319},
+ {'xmin': 37.5401944798516, 'xmax': 56.31029171977539, 'ymin': -15.560788778895319, 'ymax': -0.6221580403057985},
+ {'xmin': 37.5401944798516, 'xmax': 56.31029171977539, 'ymin': -0.6221580403057985, 'ymax': 14.316472698283718},
+ {'xmin': 37.5401944798516, 'xmax': 56.31029171977539, 'ymin': 14.316472698283718, 'ymax': 29.255103436873245},
+ {'xmin': 56.31029171977539, 'xmax': 75.08038895969917, 'ymin': -30.49941951748484, 'ymax': -15.560788778895319},
+ {'xmin': 56.31029171977539, 'xmax': 75.08038895969917, 'ymin': -15.560788778895319, 'ymax': -0.6221580403057985},
+ {'xmin': 56.31029171977539, 'xmax': 75.08038895969917, 'ymin': -0.6221580403057985, 'ymax': 14.316472698283718},
+ {'xmin': 56.31029171977539, 'xmax': 75.08038895969917, 'ymin': 14.316472698283718, 'ymax': 29.255103436873245},
+ {'xmin': 75.08038895969917, 'xmax': 93.85048619962295, 'ymin': -30.49941951748484, 'ymax': -15.560788778895319},
+ {'xmin': 75.08038895969917, 'xmax': 93.85048619962295, 'ymin': -15.560788778895319, 'ymax': -0.6221580403057985},
+ {'xmin': 75.08038895969917, 'xmax': 93.85048619962295, 'ymin': -0.6221580403057985, 'ymax': 14.316472698283718},
+ {'xmin': 75.08038895969917, 'xmax': 93.85048619962295, 'ymin': 14.316472698283718, 'ymax': 29.255103436873245},
+ {'xmin': 93.85048619962295, 'xmax': 112.62058343954672, 'ymin': -30.49941951748484, 'ymax': -15.560788778895319},
+ {'xmin': 93.85048619962295, 'xmax': 112.62058343954672, 'ymin': -15.560788778895319, 'ymax': -0.6221580403057985},
+ {'xmin': 93.85048619962295, 'xmax': 112.62058343954672, 'ymin': -0.6221580403057985, 'ymax': 14.316472698283718},
+ {'xmin': 93.85048619962295, 'xmax': 112.62058343954672, 'ymin': 14.316472698283718, 'ymax': 29.255103436873245}
+]
 
 
-AUTUMN = [   {'xmin':-15,'xmax':-9,'ymin':-50,'ymax':-1 },
-                {'xmin':-9,'xmax':-5,'ymin':-50,'ymax':-1 },
-                {'xmin':-5,'xmax':-2,'ymin':-50,'ymax':-1 },
-                {'xmin':-2,'xmax':2,'ymin':-50,'ymax':-1 },
-                {'xmin':-15,'xmax':2,'ymin':-55,'ymax':-49 },
-                {'xmin':-15,'xmax':2,'ymin':-1,'ymax':5 }
-                ]
-WINTER = [   {'xmin':-15,'xmax':-9,'ymin':-50,'ymax':-1 },
-                {'xmin':-9,'xmax':-5,'ymin':-50,'ymax':-1 },
-                {'xmin':-5,'xmax':-2,'ymin':-50,'ymax':-1 },
-                {'xmin':-2,'xmax':2,'ymin':-50,'ymax':-1 },
-                {'xmin':-15,'xmax':2,'ymin':-55,'ymax':-49 },
-                {'xmin':-15,'xmax':2,'ymin':-1,'ymax':5 }
-                ]
-SPRING = [   {'xmin':-15,'xmax':-9,'ymin':-50,'ymax':-1 },
-                {'xmin':-9,'xmax':-5,'ymin':-50,'ymax':-1 },
-                {'xmin':-5,'xmax':-2,'ymin':-50,'ymax':-1 },
-                {'xmin':-2,'xmax':2,'ymin':-50,'ymax':-1 },
-                {'xmin':-15,'xmax':2,'ymin':-55,'ymax':-49 },
-                {'xmin':-15,'xmax':2,'ymin':-1,'ymax':5 }
-                ]
-SUMMER = [ {'xmin':-39,'xmax':-1,'ymax':7,'ymin':4.5},
-            {'xmin':-39,'xmax':-1,'ymax':4.5,'ymin':1},
-            {'xmin':-39,'xmax':-1,'ymax':1,'ymin':-2},
-            {'xmin':-2,'xmax':2,'ymax':6.5,'ymin':-1},
-            {'xmin':-45,'xmax':-38,'ymax':6.5,'ymin':-1}]
+AUTUMN = CUSTOM_ROIS_6x4
+WINTER = CUSTOM_ROIS_6x4
+SPRING = CUSTOM_ROIS_6x4
+SUMMER = CUSTOM_ROIS_6x4
 
-"""SUMMER = [
-    {'xmin':0, 'xmax':20, 'ymin':-30, 'ymax':-10},
-    {'xmin':20,'xmax':40,'ymin':-30,'ymax':-10},
-    {'xmin':40,'xmax':60,'ymin':-30,'ymax':-10},
-    {'xmin':60,'xmax':80,'ymin':-30,'ymax':-10},
-    {'xmin':80,'xmax':100,'ymin':-30,'ymax':-10},
-    {'xmin':100,'xmax':113,'ymin':-30,'ymax':-10}
-]"""
+def make_grid_rois(poses, nx=6, ny=4, pad_frac=0.0):
+    """
+    Genera una lista de ROI tipo {'xmin','xmax','ymin','ymax'} en una rejilla nx * ny
+    sobre el bounding box de `poses` (array N x 2 con columnas [x,y]).
+    pad_frac añade un pequeño padding relativo (ej. 0.05 para 5%).
+    """
+    x = poses[:,0]
+    y = poses[:,1]
+    xmin, xmax = x.min(), x.max()
+    ymin, ymax = y.min(), y.max()
 
+    # padding relativo opcional
+    dx = (xmax - xmin) * pad_frac
+    dy = (ymax - ymin) * pad_frac
+    xmin -= dx; xmax += dx
+    ymin -= dy; ymax += dy
+
+    x_edges = np.linspace(xmin, xmax, nx+1)
+    y_edges = np.linspace(ymin, ymax, ny+1)
+
+    rois = []
+    for i in range(nx):
+        for j in range(ny):
+            roi = {
+                'xmin': float(x_edges[i]),
+                'xmax': float(x_edges[i+1]),
+                'ymin': float(y_edges[j]),
+                'ymax': float(y_edges[j+1])
+            }
+            if i == nx-1:
+                roi['xmax'] = float(xmax)
+            if j == ny-1:
+                roi['ymax'] = float(ymax)
+            rois.append(roi)
+    return rois
 
 def summer_align(xy):
     xy = xy[:,0:2].copy().transpose() # Grid
@@ -115,14 +145,16 @@ def gen_ground_truth(   poses,
     positive = []
     select_pos_idx = np.arange(num_pos)
 
-    if sequence in ['11']:
+    """if sequence in ['11']:
         bbox = AUTUMN
     elif sequence in ['03', '04', '05']:
         bbox = SPRING
     elif sequence in ['06', '07', '08', '09', '10']:
         bbox = SUMMER
     else:
-        bbox = WINTER
+        bbox = WINTER"""
+
+    bbox = make_grid_rois(poses, nx=6, ny=4, pad_frac=0.02)
 
     print(np.min(poses[:,0]), np.max(poses[:,0]), np.min(poses[:,1]), np.max(poses[:,1]))
     for i in ROI:
@@ -146,12 +178,19 @@ def gen_ground_truth(   poses,
             an_labels, an_point_idx = get_roi_points(pa,bbox)
             pos_labels, pos_point_idx = get_roi_points(pp,bbox)
 
+            # ROIs que coinciden con el anchor
             boolean_sg = np.where(an_labels[0] == pos_labels)[0]
             if len(boolean_sg):
-                pos = [pos_idx[pos_point_idx[idx]] for idx in boolean_sg][0]
-                min_sort = np.argsort(dist_meter[pos])
-                positive.append(pos[min_sort])
-                anchor.append(i)
+                # recopila candidatos de todas las celdas ROI coincidentes
+                pos_list = []
+                for k in boolean_sg:
+                    idxs = np.asarray(pos_point_idx[k], dtype=np.int64)  # asegurar enteros
+                    pos_list.append(pos_idx[idxs])
+                if len(pos_list):
+                    pos = np.unique(np.concatenate(pos_list))
+                    min_sort = np.argsort(dist_meter[pos])
+                    positive.append(pos[min_sort])
+                    anchor.append(i)
     
     # Negatives
     negatives= []
@@ -160,10 +199,13 @@ def gen_ground_truth(   poses,
         pa = poses[a,:].reshape((1,-1))
         dist_meter = np.linalg.norm(pa-poses,axis=1)
         neg_idx = np.where(dist_meter > neg_range)[0]
-        neg_idx = np.setxor1d(neg_idx,pos)
-        select_neg = np.random.randint(0,len(neg_idx),num_neg)
-        neg_idx = neg_idx[select_neg]
-        negatives.append(neg_idx)
+        neg_idx = np.setxor1d(neg_idx,pos) # excluir positivos correctamente
+        neg_idx = np.setdiff1d(neg_idx, pos, assume_unique=False)
+        if len(neg_idx) == 0:
+            negatives.append(np.array([], dtype=np.int64))
+            continue
+        select_neg = np.random.randint(0,len(neg_idx),size=min(num_neg, len(neg_idx)))
+        negatives.append(neg_idx[select_neg])
 
     return(anchor,positive,negatives)
 
@@ -173,7 +215,6 @@ def get_roi_points(points,rois):
     labels = []
     point_idx = []
     for i,roi in enumerate(rois):
-        # 
         xmin = (points[:,0]>=roi['xmin'])
         xmax = (points[:,0]<roi['xmax'])
         xx = np.logical_and(xmin, xmax)
@@ -182,14 +223,13 @@ def get_roi_points(points,rois):
         ymax = (points[:,1]<roi['ymax'])
         yy = np.logical_and(ymin, ymax)
         
-        selected = np.logical_and(xx, yy)
-        idx = np.where(selected==True)[0]
-        
+        idx = np.where(np.logical_and(xx, yy))[0]
         if len(idx)>0:
             labels.append(i)
-            point_idx.append(idx)
-   
-    return np.array(labels), np.array(point_idx)
+            point_idx.append(idx.astype(np.int64))
+
+    # devuelve labels como ndarray y los índices como lista (no ragged ndarray)
+    return np.asarray(labels, dtype=np.int64), point_idx
 
 
 def get_point_cloud_files(dir):
@@ -242,7 +282,7 @@ class TempoVineDataset():
         # Check if target directory exists
         sequence = "run3_" + seq + "_v"
         self.target_dir = os.path.join(root,sequence)
-        pose_file = os.path.join(self.target_dir, "SLAM",'solution_graphslam.csv') # data.csv
+        pose_file = os.path.join(self.target_dir,'data.csv') # data.csv
 
         assert os.path.isfile(pose_file),'pose file does not exist: ' + pose_file
 

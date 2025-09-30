@@ -39,7 +39,7 @@ def force_cudnn_initialization():
 
 def load_dataset(dataset,session,memory,max_points=None,debug=False):
 
-    root_dir = "root_ES"
+    root_dir = "root_IT"
 
 
     """loader = ORCHARDS(root    = session[root_dir],
@@ -189,7 +189,7 @@ if __name__ == '__main__':
   SESSION['val_loader']['data']['max_points'] = FLAGS.max_points
 
   print("----------")
-  print("Root: ", SESSION['root_ES'])
+  print("Root: ", SESSION['root_IT'])
   print("\n======= TRAIN LOADER =======")
   print("Dataset  : ", SESSION['train_loader']['data']['dataset'])
   print("Sequence : ", SESSION['train_loader']['data']['sequence'])
