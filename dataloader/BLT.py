@@ -356,14 +356,6 @@ class BLTEval(BLTDataset):
         self.modality = modality
         self.mode     = mode
         self.preprocessing = PREPROCESSING
-        """if sequence in ['11']:
-            self.line_rois = AUTUMN
-        elif sequence in ['03', '04', '05']:
-            self.line_rois = SPRING
-        elif sequence in ['06', '07', '08', '09', '10']:
-            self.line_rois = SUMMER
-        else:
-            self.line_rois = WINTER"""
         
         self.line_rois = make_grid_rois(self.pose, nx=6, ny=4, pad_frac=0.02)
 
@@ -578,7 +570,7 @@ class BLT():
 
         if split_mode == 'cross-val':
             # Cross-validation. Train and test sets are from different sequences
-            test_set = TempoVineEval( root =  kwargs['root'],
+            test_set = BLTEval( root =  kwargs['root'],
                                         mode = kwargs['mode'],
                                         **test_loader['data'],
                                         ground_truth = test_loader['ground_truth']
