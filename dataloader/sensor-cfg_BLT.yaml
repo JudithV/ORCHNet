@@ -7,13 +7,13 @@
       zmin: -1 # Do not change
       zmax: 2 # Do not change
 
-  RP: # HDL-32E  
+  RP: # OS1-16
     W: 512
     H: 32
     max_depth: 30
     max_rem: 1
-    fov_up: 10.67
-    fov_down: -30.67
+    fov_up: 16.6
+    fov_down: -16.6
 
   BEV:
     W: 254
@@ -23,7 +23,7 @@
 rerecord_orchard1:
   means: []
   std:   []
-  sensor: "HDL32"
+  sensor: "OS1-16"
   roi:
       xmin: -15
       xmax:  15
@@ -31,7 +31,7 @@ rerecord_orchard1:
       ymax:  15
       zmin: -2.73
       zmax: 5
-  RP: # HDL-32E  
+  RP: # OS1-16
     W: 1024
     H: 32
     max_depth: 30
@@ -52,8 +52,8 @@ ouster:
       ymax:  50
       zmin: -2.73
       zmax: 20
-      
-  RP: # HDL-32E  
+
+  RP: # OS1-16
     W: 512
     H: 32
     max_depth: 50
@@ -64,14 +64,6 @@ ouster:
     H: 256
     
 
-HDL32: 
-  fov_up: 10.67
-  fov_down: -30.67
-
 ousterlaser: # +16.6° to -16.6
   fov_up: 16.6
   fov_down: -16.6
-
-HDL64E: 
-  fov_up: 2.0
-  fov_down: -24.9

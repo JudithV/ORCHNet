@@ -139,6 +139,7 @@ def gen_ground_truth(   poses,
     indices = np.array(range(poses.shape[0]-1))
     loop_labels = np.zeros(poses.shape[0],dtype=int)
     warmupitrs = 10
+    #print(len(poses))
 
     ROI = indices[warmupitrs:]
     print(roi)
@@ -297,8 +298,16 @@ class BLTDataset():
 
             self.point_cloud_files = self.point_cloud_files[sync_plc_idx]
             self.pose =  self.pose[sync_pose_idx]
-       
-        
+        num_poses = self.pose.shape[0]
+        # Filtrar duplicados de self.pose (mismos timestamps)
+        _, unique_indices = np.unique(self.pose[:, 0], return_index=True)
+        self.pose = self.pose[unique_indices]
+        print(self.pose)
+        num_pcls  = self.point_cloud_files.shape[0]
+        print(f"Number of poses: {num_poses}, number of point clouds: {num_pcls}")
+        if num_poses > num_pcls:
+            print(f"Filtrando {num_poses - num_pcls} poses extra...")
+            self.pose = self.pose[:num_pcls]
         self.anchors,self.positives,self.negatives = gen_ground_truth(self.pose,seq,**ground_truth)
         n_points = self.pose.shape[0]
         self.table = np.zeros((n_points,n_points))
@@ -446,20 +455,35 @@ class BLT_Triplet(BLTDataset):
         self.preprocessing = PREPROCESSING
         verbose = True
     
-
         # Triplet data
         self.num_samples = len(self._get_point_cloud_file_())
         self.idx_universe = np.arange(self.num_samples)
         # Eval data
         self.poses = self._get_pose_()
+        # --- Filtrar point clouds por timestamp ---
+        # 1. Extraer timestamps de las poses
+        """pose_timestamps = set(self.pose[:, 0].astype(int))  # asumiendo que la primera columna de self.pose es el timestamp
 
-         # Load to RAM
+        # 2. Extraer timestamps de los point clouds a partir del nombre de archivo
+        valid_point_clouds = []
+        valid_indices = []
+
+        for i, pc_file in enumerate(self.point_cloud_files):
+            # Extraer timestamp del nombre (suponiendo que el nombre de archivo empieza con el timestamp)
+            ts = int(os.path.basename(pc_file).split('.')[0])  
+            if ts in pose_timestamps:
+                valid_point_clouds.append(pc_file)
+                valid_indices.append(i)
+
+        self.point_cloud_files = np.array(valid_point_clouds)
+        self.pose = self.pose[np.isin(self.pose[:, 0].astype(int), [int(os.path.basename(pc).split('.')[0]) for pc in valid_point_clouds])]
+        """
+        # Load to RAM
         if self.mode == 'RAM':
             self.inputs = self.load_RAM()
 
     
-    def load_subset(self,subsetidx):
-        
+    def load_subset(self,subsetidx):       
         self.anchors= np.array(self.anchors)[subsetidx]
         self.map_idx  = np.setxor1d(self.idx_universe,self.anchors)
                
@@ -485,6 +509,8 @@ class BLT_Triplet(BLTDataset):
     def get_triplet_data(self,index):
         an_idx,pos_idx,neg_idx  = self.anchors[index],self.positives[index], self.negatives[index]
         pos_idx = pos_idx[:self.num_pos]
+        print(f"index={index}, an_idx={an_idx}, pos_idx={pos_idx}, neg_idx={neg_idx}, len(inputs)={len(self.inputs)}")
+
         if self.mode == 'RAM':     
             # point clouds are already converted to the input representation, is only required to 
             #  convert to tensor 
