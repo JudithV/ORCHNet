@@ -14,7 +14,7 @@ retrieval:
 train_loader:
   data:
     dataset: ''
-    sequence: '2022-05-06' # date of the sequence
+    sequence: "2022-05-06" # date of the sequence
     aug: True
     modality: 'range'
     max_points: 10000

@@ -274,13 +274,14 @@ class BLTDataset():
 
         # Check if target directory exists
         self.target_dir = os.path.join(root,seq)
-        pose_file = os.path.join(self.target_dir,'robot0', 'gps0','data.csv') # data.csv
+        pose_file = os.path.join(self.target_dir,'data.csv') # data.csv
+        print(pose_file)
 
         assert os.path.isfile(pose_file),'pose file does not exist: ' + pose_file
 
         self.pose = load_pose_to_RAM_csv(pose_file)
 
-        point_cloud_dir = os.path.join(self.target_dir,'pointcloud/lidar3d_0')
+        point_cloud_dir = os.path.join(self.target_dir,'robot0/lidar/data')
         assert os.path.isdir(point_cloud_dir),'point cloud dir does not exist: ' + point_cloud_dir
         names, self.point_cloud_files = get_files(point_cloud_dir)
 

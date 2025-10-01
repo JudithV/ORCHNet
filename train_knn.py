@@ -49,12 +49,12 @@ def load_dataset(dataset,session,memory,max_points=None,debug=False):
                         mode          = memory,
                         split_mode    = 'train-test', # ['train-test','cross-val']
                         )"""
-    loader = TEMPO_VINE(root    = session[root_dir],
+    """loader = TEMPO_VINE(root    = session[root_dir],
                         train_loader  = session['train_loader'],
                         test_loader    = session['val_loader'],
                         mode          = memory,
                         split_mode    = 'train-test', # ['train-test','cross-val']
-                        )
+                        )"""
     loader = BLT(root    = session[root_dir],
                         train_loader  = session['train_loader'],
                         test_loader    = session['val_loader'],
