@@ -59,7 +59,8 @@ def load_pose_to_RAM_csv(file):
     if "graphslam" in file:
         pose_array = df[['x','y']].to_numpy()
     else:
-        pose_array = df[['northing','easting']].to_numpy()
+        #pose_array = df[['northing','easting']].to_numpy() # TEMPO-VINE
+        pose_array = df[['easting','northing']].to_numpy() # BLT
     return(pose_array)
 
 def load_to_RAM(file):

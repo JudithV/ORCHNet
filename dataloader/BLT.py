@@ -302,12 +302,6 @@ class BLTDataset():
         # Filtrar duplicados de self.pose (mismos timestamps)
         _, unique_indices = np.unique(self.pose[:, 0], return_index=True)
         self.pose = self.pose[unique_indices]
-        print(self.pose)
-        num_pcls  = self.point_cloud_files.shape[0]
-        print(f"Number of poses: {num_poses}, number of point clouds: {num_pcls}")
-        if num_poses > num_pcls:
-            print(f"Filtrando {num_poses - num_pcls} poses extra...")
-            self.pose = self.pose[:num_pcls]
         self.anchors,self.positives,self.negatives = gen_ground_truth(self.pose,seq,**ground_truth)
         n_points = self.pose.shape[0]
         self.table = np.zeros((n_points,n_points))

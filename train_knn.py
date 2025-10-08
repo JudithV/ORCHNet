@@ -59,7 +59,7 @@ def load_dataset(dataset,session,memory,max_points=None,debug=False):
                         train_loader  = session['train_loader'],
                         test_loader    = session['val_loader'],
                         mode          = memory,
-                        split_mode    = 'train-test', # ['train-test','cross-val']
+                        split_mode    = 'cross-val', # ['train-test','cross-val']
                         )
     
     return(loader)
