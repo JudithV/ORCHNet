@@ -16,7 +16,7 @@ train_loader:
     dataset: ''
     sequence: "2022-03-23-12-27-15" # ["2022-03-23-12-27-15", "2022-06-01-15-16-04", "2022-07-13-15-38-32", "2022-04-06-11-02-34", "2022-06-08-14-03-03", "2022-09-15-14-23-20", "2022-04-20-09-37-20", "2022-06-22-13-02-08", "2022-05-06", "2022-06-29-13-49-55"]
     aug: True
-    modality: 'range'
+    modality: 'bev'
     max_points: 10000
   
   ground_truth: 
@@ -38,7 +38,7 @@ val_loader:
   data:
     dataset: ''
     sequence: "2022-04-06-11-02-34" # date of the sequence
-    modality: 'range' # ['range',projection,bev]'intensity','density','height','bev']
+    modality: 'bev' # ['range',projection,bev]'intensity','density','height','bev']
     max_points: 10000
 
   ground_truth: 
